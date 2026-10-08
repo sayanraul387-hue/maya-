@@ -22,7 +22,7 @@ const questions = [
       "RONI",
       "DOGECH BAHI"
     ],
-    answer: 2
+    answer: 1
   },
 
   {
@@ -44,7 +44,7 @@ const questions = [
       "ব্যবসা করা ",
       " কুত্তামি করা "
     ],
-    answer: [1,2]
+    answer: [0,1]
   },
 
   {
@@ -55,7 +55,7 @@ const questions = [
       "JOLDAPARAR হস্তী ",
       "NOTING"
     ],
-    answer: 3  },
+    answer: 2  },
 {
   question: "DO YOU LIKE MAYA?",
   options: [
@@ -75,7 +75,7 @@ const questions = [
     "না খাওয়া ",
     "Nothing"
   ],
-  answer: 1
+  answer: 0
 },
 {
   question: "The ultimate goal of MAYA?",
@@ -85,7 +85,7 @@ const questions = [
     "Manager in his own company",
     "Nothing"
   ],
-  answer: 2
+  answer: 0
 }
 
 
