@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Quiz | Mystery Challenge</title>
+
+ <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <nav class="navbar">
+
+    <div class="brand">
+      🧩 Mystery Challenge
+    </div>
+
+    <div id="userName" class="user-name"></div>
+
+    <button id="logoutBtn" class="logout-btn">
+      Logout
+    </button>
+
+  </nav>
+
+
+  <main class="quiz-container">
+
+    <div class="quiz-header">
+
+      <span id="questionNumber">
+        Question 1 / 5
+      </span>
+
+      <span id="score">
+        Score: 0
+      </span>
+
+    </div>
+
+
+    <div class="progress">
+      <div id="progressBar"></div>
+    </div>
+
+
+    <section class="quiz-card">
+
+      <h1 id="question">
+        Loading question...
+      </h1>
+
+
+      <div id="options" class="options">
+
+        <!-- Options will appear here -->
+
+      </div>
+
+
+      <button id="nextBtn" class="next-btn">
+        Next →
+      </button>
+
+    </section>
+
+  </main>
+
+
+  <script type="module" src="quiz.js"></script>
+
+</body>
+</html>
