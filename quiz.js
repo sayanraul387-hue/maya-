@@ -39,12 +39,12 @@ const questions = [
   {
     question: "WHAT IS THE FAVOURITE THING THAT MAYA LOVES TO DO?",
     options: [
-      "মেয়েদের পিছনে লাগা ",
-      "হিজড়ামি করা ",
+      "মেয়েদের পিছনে লাগা ",
+      "হিজড়ামি করা ",
       "ব্যবসা করা ",
       " কুত্তামি করা "
     ],
-    answer: [0,1]
+    answer: [0, 1] // Duto-i correct answer
   },
 
   {
@@ -55,46 +55,41 @@ const questions = [
       "JOLDAPARAR হস্তী ",
       "NOTING"
     ],
-    answer: 2  },
-{
-  question: "DO YOU LIKE MAYA?",
-  options: [
-    "YES",
-    "MA KASAM YES",
-    "ALLAH KASAM YES",
-    "🖕"
-  ],
-  answer: 0
-},
- 
-{
-  question: "What is the favourite food of MAYA?",
-  options: [
-    "লোকের পোঁদ মেরে খাওয়া ",
-    "নিজের টাকা তে খাওয়া ",
-    "না খাওয়া ",
-    "Nothing"
-  ],
-  answer: 0
-},
-{
-  question: "The ultimate goal of MAYA?",
-  options: [
-    "রেলের পথ পরিষ্কার করা ",
-    "ALP",
-    "Manager in his own company",
-    "Nothing"
-  ],
-  answer: 0
-}
+    answer: 2
+  },
 
+  {
+    question: "DO YOU LIKE MAYA?",
+    options: [
+      "YES",
+      "MA KASAM YES",
+      "ALLAH KASAM YES",
+      "🖕"
+    ],
+    answer: 0
+  },
 
+  {
+    question: "What is the favourite food of MAYA?",
+    options: [
+      "লোকের পোঁদ মেরে খাওয়া ",
+      "নিজের টাকা তে খাওয়া ",
+      "না খাওয়া ",
+      "Nothing"
+    ],
+    answer: 0
+  },
 
-
-
-
-
-
+  {
+    question: "The ultimate goal of MAYA?",
+    options: [
+      "রেলের পথ পরিষ্কার করা ",
+      "ALP",
+      "Manager in his own company",
+      "Nothing"
+    ],
+    answer: 0
+  }
 ];
 
 
@@ -206,38 +201,45 @@ function selectAnswer(selectedIndex, selectedButton) {
 
   answered = true;
 
-  const correctAnswer =
-    questions[currentQuestion].answer;
+  const correctAnswer = questions[currentQuestion].answer;
+  const allOptions = document.querySelectorAll(".option");
 
-  const allOptions =
-    document.querySelectorAll(".option");
+  let isCorrect = false;
+
+  // Check if answer is an Array (Multiple correct answers) or Single Number
+  if (Array.isArray(correctAnswer)) {
+    isCorrect = correctAnswer.includes(selectedIndex);
+  } else {
+    isCorrect = selectedIndex === correctAnswer;
+  }
 
   allOptions.forEach((button, index) => {
 
     button.disabled = true;
 
-    if (index === correctAnswer) {
-      button.classList.add("correct");
+    // Highlight all valid correct answers in Green
+    if (Array.isArray(correctAnswer)) {
+      if (correctAnswer.includes(index)) {
+        button.classList.add("correct");
+      }
+    } else {
+      if (index === correctAnswer) {
+        button.classList.add("correct");
+      }
     }
 
   });
 
 
-  if (selectedIndex === correctAnswer) {
-
+  if (isCorrect) {
     score++;
-
     selectedButton.classList.add("correct");
-
   } else {
-
     selectedButton.classList.add("wrong");
-
   }
 
 
-  scoreElement.textContent =
-    `Score: ${score}`;
+  scoreElement.textContent = `Score: ${score}`;
 
   nextButton.style.display = "block";
 }
@@ -268,8 +270,6 @@ nextButton.addEventListener("click", () => {
 // RESULT
 // ==========================
 
-
-
 async function showResult() {
   questionNumber.textContent = "Quiz Completed 🎉";
 
@@ -282,17 +282,19 @@ async function showResult() {
     Math.round((score / questions.length) * 100);
 
   // Save result to Supabase
-  const { error: saveError } = await supabase
-    .from("quiz_results")
-    .insert({
-      user_id: session.user.id,
-      score: score,
-      total_questions: questions.length,
-      percentage: percentage
-    });
+  if (session && session.user) {
+    const { error: saveError } = await supabase
+      .from("quiz_results")
+      .insert({
+        user_id: session.user.id,
+        score: score,
+        total_questions: questions.length,
+        percentage: percentage
+      });
 
-  if (saveError) {
-    console.error("Result save error:", saveError);
+    if (saveError) {
+      console.error("Result save error:", saveError);
+    }
   }
 
   const resultMessage = document.createElement("p");
@@ -314,17 +316,20 @@ async function showResult() {
   };
 }
 
+
 // ==========================
 // LOGOUT
 // ==========================
 
-logoutButton.addEventListener("click", async () => {
+if (logoutButton) {
+  logoutButton.addEventListener("click", async () => {
 
-  await supabase.auth.signOut();
+    await supabase.auth.signOut();
 
-  window.location.href = "login.html";
+    window.location.href = "login.html";
 
-});
+  });
+}
 
 
 // ==========================
